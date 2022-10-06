@@ -67,6 +67,22 @@ public class UserRegistration {
 		} else {
 			System.out.println("FAIL");
 		}
+		
+		// Mobile format is like two digits country code then space character after that ten digit mobile number
+		// for two digit country code we used [0-9]{2}
+		// then space character
+		// for ten digit mobile number we used [0-9]{10}
+		Pattern mobilePattern = Pattern.compile("[0-9]{2} [0-9]{10}");
+
+		// Mobile validation according to mobile pattern
+		System.out.print("Enter mobile : ");
+		String mobile = scanner.nextLine();
+		System.out.print("Validation for mobile '"+mobile+"' is : ");
+		if(mobilePattern.matcher(mobile).matches()) {
+			System.out.println("PASS");
+		} else {
+			System.out.println("FAIL");
+		}
 	}
 
 }
