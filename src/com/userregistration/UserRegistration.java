@@ -83,6 +83,19 @@ public class UserRegistration {
 		} else {
 			System.out.println("FAIL");
 		}
+		
+		// Password should have contain minimum 8 characters
+		Pattern passwordPattern = Pattern.compile(".{8,}");
+		
+		// Password validation according to password pattern
+		System.out.print("Enter password : ");
+		String password = scanner.nextLine();
+		System.out.print("Validation for password '"+password+"' is : ");
+		if(passwordPattern.matcher(password).matches()) {
+			System.out.println("PASS");
+		} else {
+			System.out.println("FAIL");
+		}
 	}
 
 }
