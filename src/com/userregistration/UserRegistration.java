@@ -24,6 +24,16 @@ public class UserRegistration {
 		} else {
 			System.out.println("FAIL");
 		}
+		
+		// Last name validation according to name pattern
+		System.out.print("Enter last name : ");
+		String lastName = scanner.nextLine();
+		System.out.print("Validation for last name '"+lastName+"' is : ");
+		if(namePattern.matcher(lastName).matches()) {
+			System.out.println("PASS");
+		} else {
+			System.out.println("FAIL");
+		}
 	}
 
 }
