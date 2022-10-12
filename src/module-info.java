@@ -1,2 +1,3 @@
 module UserRegistration {
+	requires junit;
 }

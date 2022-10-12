@@ -121,6 +121,8 @@ public class UserRegistration {
 			System.out.println("FAIL");
 		}
 		
+		scanner.close();
+		
 		System.out.println("\nCheck email pattern against sample emails to test : ");
 		String[] sampleEmails = {
 			"abc@yahoo.com",
