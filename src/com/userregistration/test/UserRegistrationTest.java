@@ -11,10 +11,10 @@ import com.userregistration.User;
 import com.userregistration.UserRegistration;
 
 public class UserRegistrationTest {
-	ArrayList<User> happyTestCases = new ArrayList<>();
-	ArrayList<User> sadTestCases = new ArrayList<>();
+	private ArrayList<User> happyTestCases = new ArrayList<>();
+	private ArrayList<User> sadTestCases = new ArrayList<>();
 	
-	UserRegistration userRegistration = new UserRegistration();
+	private UserRegistration userRegistration = new UserRegistration();
 	
 	public UserRegistrationTest() {
 		User user1 = new User();
