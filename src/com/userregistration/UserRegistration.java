@@ -45,11 +45,19 @@ public class UserRegistration {
 	// Password should contain exactly one special character we done it with (?=[^@#$%^&-+=()]*[@#$%^&-+=()][^@#$%^&-+=()]*$)
 	Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[A-Z])(?=[^@#$%^&-+=()]*[@#$%^&-+=()][^@#$%^&-+=()]*$).{8,}$");
 	
+	// for choosing which validation have to apply
 	public final String NAME_TYPE = "NAME";
 	public final String EMAIL_TYPE = "EMAIL";
 	public final String MOBILE_TYPE = "MOBILE";
 	public final String PASSWORD_TYPE = "PASSWORD";
 	
+	/**
+	 * validate value according to type of value
+	 * 
+	 * @param type
+	 * @param value
+	 * @return true if validation correct otherwise false
+	 */
 	public boolean validate(String type, String value) {
 		switch(type) {
 		case NAME_TYPE:
@@ -63,6 +71,20 @@ public class UserRegistration {
 		default:
 			return false;
 		}
+	}
+	
+	/**
+	 * validate users all details according to correct type
+	 * 
+	 * @param user
+	 * @return true if all validations of user is correct otherwise false
+	 */
+	public boolean validate(User user) {
+		return validate(NAME_TYPE, user.getFirstName()) 
+				&& validate(NAME_TYPE, user.getLastName())
+				&& validate(EMAIL_TYPE, user.getEmail())
+				&& validate(MOBILE_TYPE, user.getMobile())
+				&& validate(PASSWORD_TYPE, user.getPassword());
 	}
 
 	public static void main(String[] args) {
