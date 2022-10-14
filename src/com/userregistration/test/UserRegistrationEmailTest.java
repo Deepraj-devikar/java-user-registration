@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.userregistration.UserInputException;
 import com.userregistration.UserRegistration;
 
 /**
@@ -71,7 +72,11 @@ public class UserRegistrationEmailTest {
 
 	@Test
 	public void test() {
-		Assert.assertEquals(userRegistration.validate(userRegistration.EMAIL_TYPE, email), isValid);
+		try {
+			Assert.assertEquals(userRegistration.validate(userRegistration.EMAIL_TYPE, email), isValid);
+		} catch (UserInputException e) {
+			System.out.println(e);
+		}
 	}
 
 }

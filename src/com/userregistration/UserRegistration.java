@@ -53,38 +53,76 @@ public class UserRegistration {
 	
 	/**
 	 * validate value according to type of value
+	 * if invalid input then throws UserInputException
 	 * 
 	 * @param type
 	 * @param value
 	 * @return true if validation correct otherwise false
+	 * @throws UserInputException 
 	 */
-	public boolean validate(String type, String value) {
+	public boolean validate(String type, String value) throws UserInputException {
+		boolean isValid = false;
 		switch(type) {
 		case NAME_TYPE:
-			return namePattern.matcher(value).matches();
+			isValid = namePattern.matcher(value).matches();
+			break;
 		case EMAIL_TYPE:
-			return emailPattern.matcher(value).matches();
+			isValid = emailPattern.matcher(value).matches();
+			break;
 		case MOBILE_TYPE:
-			return mobilePattern.matcher(value).matches();
+			isValid = mobilePattern.matcher(value).matches();
+			break;
 		case PASSWORD_TYPE:
-			return passwordPattern.matcher(value).matches();
-		default:
-			return false;
+			isValid = passwordPattern.matcher(value).matches();
+			break;
+		}
+		if (isValid) {
+			return isValid;
+		} else {
+			throw new UserInputException(" "+type+" ");
 		}
 	}
 	
 	/**
 	 * validate users all details according to correct type
+	 * if invalid any input then throws UserInputException
 	 * 
 	 * @param user
 	 * @return true if all validations of user is correct otherwise false
+	 * @throws UserInputException 
 	 */
-	public boolean validate(User user) {
-		return validate(NAME_TYPE, user.getFirstName()) 
-				&& validate(NAME_TYPE, user.getLastName())
-				&& validate(EMAIL_TYPE, user.getEmail())
-				&& validate(MOBILE_TYPE, user.getMobile())
-				&& validate(PASSWORD_TYPE, user.getPassword());
+	public boolean validate(User user) throws UserInputException {
+		String invalidTypes = "";
+		try {
+			validate(NAME_TYPE, user.getFirstName());
+		} catch (UserInputException e) {
+			invalidTypes += " FIRST "+NAME_TYPE+", ";
+		}
+		try {
+			validate(NAME_TYPE, user.getLastName());
+		} catch (UserInputException e) {
+			invalidTypes += " LAST "+NAME_TYPE+", ";
+		}
+		try {
+			validate(EMAIL_TYPE, user.getEmail());
+		} catch (UserInputException e) {
+			invalidTypes += " "+EMAIL_TYPE+", ";
+		}
+		try {
+			validate(MOBILE_TYPE, user.getMobile());
+		} catch (UserInputException e) {
+			invalidTypes += " "+MOBILE_TYPE+", ";
+		}
+		try {
+			validate(PASSWORD_TYPE, user.getPassword());
+		} catch (UserInputException e) {
+			invalidTypes += " "+PASSWORD_TYPE+" ";
+		}
+		if(invalidTypes.isBlank()) {
+			return true;
+		} else {
+			throw new UserInputException(invalidTypes);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -97,50 +135,70 @@ public class UserRegistration {
 		System.out.print("Enter first name : ");
 		String firstName = scanner.nextLine();
 		System.out.print("Validation for first name '"+firstName+"' is : ");
-		if(userRegistration.validate(userRegistration.NAME_TYPE, firstName)) {
-			System.out.println("PASS");
-		} else {
-			System.out.println("FAIL");
+		try {
+			if(userRegistration.validate(userRegistration.NAME_TYPE, firstName)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAIL");
+			}
+		} catch (UserInputException e) {
+			System.out.println(e);
 		}
 		
 		// Last name validation according to name pattern
 		System.out.print("Enter last name : ");
 		String lastName = scanner.nextLine();
 		System.out.print("Validation for last name '"+lastName+"' is : ");
-		if(userRegistration.validate(userRegistration.NAME_TYPE, lastName)) {
-			System.out.println("PASS");
-		} else {
-			System.out.println("FAIL");
+		try {
+			if(userRegistration.validate(userRegistration.NAME_TYPE, lastName)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAIL");
+			}
+		} catch (UserInputException e) {
+			System.out.println(e);
 		}
 		
 		// Email validation according to email pattern
 		System.out.print("Enter email : ");
 		String email = scanner.nextLine();
 		System.out.print("Validation for email '"+email+"' is : ");
-		if(userRegistration.validate(userRegistration.EMAIL_TYPE, email)) {
-			System.out.println("PASS");
-		} else {
-			System.out.println("FAIL");
+		try {
+			if(userRegistration.validate(userRegistration.EMAIL_TYPE, email)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAIL");
+			}
+		} catch (UserInputException e) {
+			System.out.println(e);
 		}
 		
 		// Mobile validation according to mobile pattern
 		System.out.print("Enter mobile : ");
 		String mobile = scanner.nextLine();
 		System.out.print("Validation for mobile '"+mobile+"' is : ");
-		if(userRegistration.validate(userRegistration.MOBILE_TYPE, mobile)) {
-			System.out.println("PASS");
-		} else {
-			System.out.println("FAIL");
+		try {
+			if(userRegistration.validate(userRegistration.MOBILE_TYPE, mobile)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAIL");
+			}
+		} catch (UserInputException e) {
+			System.out.println(e);
 		}
 		
 		// Password validation according to password pattern
 		System.out.print("Enter password : ");
 		String password = scanner.nextLine();
 		System.out.print("Validation for password '"+password+"' is : ");
-		if(userRegistration.validate(userRegistration.PASSWORD_TYPE, password)) {
-			System.out.println("PASS");
-		} else {
-			System.out.println("FAIL");
+		try {
+			if(userRegistration.validate(userRegistration.PASSWORD_TYPE, password)) {
+				System.out.println("PASS");
+			} else {
+				System.out.println("FAIL");
+			}
+		} catch (UserInputException e) {
+			System.out.println(e);
 		}
 		
 		scanner.close();
@@ -173,10 +231,14 @@ public class UserRegistration {
 		
 		for(int i = 0; i < sampleEmails.length; i++) {
 			System.out.print("Validation for email '"+sampleEmails[i]+"' is : ");
-			if(userRegistration.validate(userRegistration.EMAIL_TYPE, sampleEmails[i])) {
-				System.out.println("PASS");
-			} else {
-				System.out.println("FAIL");
+			try {
+				if(userRegistration.validate(userRegistration.EMAIL_TYPE, sampleEmails[i])) {
+					System.out.println("PASS");
+				} else {
+					System.out.println("FAIL");
+				}
+			} catch (UserInputException e) {
+				System.out.println(e);
 			}	
 		}
 	}

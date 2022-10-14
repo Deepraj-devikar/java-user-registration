@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.userregistration.User;
+import com.userregistration.UserInputException;
 import com.userregistration.UserRegistration;
 
 public class UserRegistrationTest {
@@ -85,10 +86,18 @@ public class UserRegistrationTest {
 	@Test
 	public void test() {
 		for (User user : happyTestCases) {
-			Assert.assertTrue(userRegistration.validate(user));
+			try {
+				Assert.assertTrue(userRegistration.validate(user));
+			} catch (UserInputException e) {
+				System.out.println(e);
+			}
 		}
 		for (User user : sadTestCases) {
-			Assert.assertFalse(userRegistration.validate(user));
+			try {
+				Assert.assertFalse(userRegistration.validate(user));
+			} catch (UserInputException e) {
+				System.out.println(e);
+			}
 		}
 	}
 
