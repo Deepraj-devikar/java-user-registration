@@ -51,6 +51,21 @@ public class UserRegistration {
 	public final String MOBILE_TYPE = "MOBILE";
 	public final String PASSWORD_TYPE = "PASSWORD";
 	
+	Validator validator = (String type, String value) -> {
+		switch(type) {
+		case NAME_TYPE:
+			return namePattern.matcher(value).matches();
+		case EMAIL_TYPE:
+			return emailPattern.matcher(value).matches();
+		case MOBILE_TYPE:
+			return mobilePattern.matcher(value).matches();
+		case PASSWORD_TYPE:
+			return passwordPattern.matcher(value).matches();
+		default:
+			return false;
+		}
+	};
+	
 	/**
 	 * validate value according to type of value
 	 * if invalid input then throws UserInputException
@@ -61,21 +76,7 @@ public class UserRegistration {
 	 * @throws UserInputException 
 	 */
 	public boolean validate(String type, String value) throws UserInputException {
-		boolean isValid = false;
-		switch(type) {
-		case NAME_TYPE:
-			isValid = namePattern.matcher(value).matches();
-			break;
-		case EMAIL_TYPE:
-			isValid = emailPattern.matcher(value).matches();
-			break;
-		case MOBILE_TYPE:
-			isValid = mobilePattern.matcher(value).matches();
-			break;
-		case PASSWORD_TYPE:
-			isValid = passwordPattern.matcher(value).matches();
-			break;
-		}
+		boolean isValid = validator.isValid(type, value);
 		if (isValid) {
 			return isValid;
 		} else {
@@ -93,31 +94,22 @@ public class UserRegistration {
 	 */
 	public boolean validate(User user) throws UserInputException {
 		String invalidTypes = "";
-		try {
-			validate(NAME_TYPE, user.getFirstName());
-		} catch (UserInputException e) {
+		if(! validator.isValid(NAME_TYPE, user.getFirstName())) {
 			invalidTypes += " FIRST "+NAME_TYPE+", ";
 		}
-		try {
-			validate(NAME_TYPE, user.getLastName());
-		} catch (UserInputException e) {
+		if(! validator.isValid(NAME_TYPE, user.getLastName())) {
 			invalidTypes += " LAST "+NAME_TYPE+", ";
 		}
-		try {
-			validate(EMAIL_TYPE, user.getEmail());
-		} catch (UserInputException e) {
+		if(! validator.isValid(EMAIL_TYPE, user.getEmail())) {
 			invalidTypes += " "+EMAIL_TYPE+", ";
 		}
-		try {
-			validate(MOBILE_TYPE, user.getMobile());
-		} catch (UserInputException e) {
+		if(! validator.isValid(MOBILE_TYPE, user.getMobile())) {
 			invalidTypes += " "+MOBILE_TYPE+", ";
 		}
-		try {
-			validate(PASSWORD_TYPE, user.getPassword());
-		} catch (UserInputException e) {
+		if(! validator.isValid(PASSWORD_TYPE, user.getPassword())) {
 			invalidTypes += " "+PASSWORD_TYPE+" ";
 		}
+		
 		if(invalidTypes.isBlank()) {
 			return true;
 		} else {
